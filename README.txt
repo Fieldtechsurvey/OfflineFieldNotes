@@ -1,43 +1,13 @@
-FIELD TECH SURVEY — OHL INSPECT
-Android offline inspection app (static Progressive Web App)
+FIELD TECH SURVEY — OHL INSPECT v5
 
-INSTALL/UPDATE ON GITHUB PAGES
-1. Open the GitHub repository fieldtechsurvey/OfflineFieldNotes.
-2. On the Code tab, upload/replace ALL SIX website files in the repository root:
-   index.html, app.js, style.css, sw.js, manifest.webmanifest, icon-192.png, icon-512.png
-   (There are seven website files; upload all seven.)
-3. Commit changes. GitHub Pages Settings should show main branch / (root).
-4. Open https://fieldtechsurvey.github.io/OfflineFieldNotes/ on Android Chrome while online.
-5. Add to home screen / Install app, and open it again.
-6. IMPORTANT: With internet active first, reload the installed app once after updating.
-7. Test in Airplane Mode: save an inspection, close/reopen, inspect Saved records and Export CSV.
+Upload these seven website files to the ROOT of the existing GitHub Pages repository: index.html, app.js, style.css, sw.js, manifest.webmanifest, icon-192.png, icon-512.png.
+Keep your existing installed app and browser storage: never clear app data to update.
+Back up existing records before upgrading and test with sample data.
 
-DATA / PRIVACY
-- Saved records and optional compressed photographs are in this Android browser's IndexedDB.
-- The current project's details are remembered in browser localStorage.
-- No collected inspection data is uploaded to GitHub. Uploaded website SOURCE is public.
-- Photos can be downloaded individually from Saved records; CSV contains photo filenames,
-  not photo contents. Use 'Export full backup (with photos)' to save all data as JSON.
-- Download CSV regularly and keep a second, secure backup of your photos/JSON.
-- Uninstalling, clearing site data, browser cleanup, storage pressure or phone loss can remove
-  saved data. Browser-local data is not a guaranteed permanent archive.
-- All local data is specific to this device/browser/site origin. Another phone won't see it.
+CSV: One row per inspection with numbered fault category/type/remarks columns. Photos are not in CSV; use Full Backup (JSON) to preserve photographs.
 
-WORKFLOW
-1. Fill in Project name, Inspector, Project number, Carried out for and Overhead line.
-2. Enter Pole number and/or Field ID (at least one required).
-3. Free from defects? Yes / No.
-4. If No, add one or many faults. Each needs a category, type and its own remarks.
-5. Optionally take/select a photo. One photo per pole inspection in this version.
-6. Save inspection; project details stay filled for the next pole.
-7. Saved records → Export CSV for RStudio.
+EMAIL: Android's sharing interface may allow an email app to receive the CSV attachment. Email recipient is entered in the app, but you must select your email app, check the To field and press Send. If the Android sharing API does not support files, the app downloads the CSV and opens an email draft; attach the downloaded CSV manually. Internet is required to actually send an email, not to collect records or create CSV files.
 
-R IMPORT
-Open import_in_RStudio.R in RStudio and run it, selecting the transferred CSV.
-CSV uses one row for each fault, with repeat project/pole details. Defect-free
-inspection gets one row with blank fault fields.
+Exit Project goes directly to project selection unless unsaved form content is present. Deleting a project uses one final confirmation and deletes all its records and photos.
 
-UPDATES
-The service worker version is fieldtech-ohl-v2. After publishing new code, reload while
-online before testing offline. Do not clear app data to force an update: that would risk
-removing records. Export backup BEFORE making future changes.
+Use import_in_RStudio.R for the exported CSV.
