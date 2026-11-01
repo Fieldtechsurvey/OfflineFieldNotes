@@ -1,22 +1,21 @@
-# Field Tech Survey – Mobile Project Submit Fix (v8)
+# Field Tech Survey — OHL Inspect — Technical Design v9
 
-This update addresses a mobile issue where the **Submit project details** button appears to do nothing. It keeps the same IndexedDB database and existing inspection features.
+## What changed
+- New branded drone / LiDAR / OHL graphic and technical navy/cyan visual theme.
+- Large, accessible Create New Project and Load Existing Project actions for phones.
+- Original v8 project, inspection, photo, export, and IndexedDB logic retained unchanged.
+- Cache version increased to v9 for update delivery; offline hero graphic is cached.
+- No pole totals or route kilometre estimates required.
 
-Changes:
-- Explicit in-page error messages identify any missing required field, rather than relying on native mobile browser validation.
-- Database read/write errors appear directly under the form.
-- Button displays “Saving project…” during a save and prevents duplicate taps.
-- Safer unique ID fallback and refreshed service worker cache (v8).
-- Large mobile-friendly submit button.
+## Installation in existing GitHub repository
+1. **First export a full JSON backup** of your existing inspections (including photos).
+2. Extract the ZIP and upload its **contents** to the ROOT of `OfflineFieldNotes` via Add file → Upload files. Overwrite matching existing files. Do not upload the enclosing folder.
+3. Commit changes on `main`; check Actions / Pages for deployment success.
+4. Open `https://fieldtechsurvey.github.io/OfflineFieldNotes/` online on your phone and refresh.
+5. Test creating a sample project, saving an inspection, exiting, and loading it again. Test once offline too.
 
-## Install
-1. **Back up existing records** using the existing app's **Full project backup** before changing files.
-2. Upload the contents of this ZIP to the **root** of the existing GitHub repository (`OfflineFieldNotes`), replacing matching files. Do not upload the enclosing folder as a folder.
-3. Commit the files. Wait for GitHub Pages to finish deploying.
-4. While online, open the published GitHub Pages app and refresh once; on a home-screen installed app, close and reopen it online. If it still uses the older version, access the Pages address in a normal browser to compare.
-5. Enter all five project detail fields and press Submit. If saving is blocked, the page should display a concrete error.
-
-**Data caution:** Existing projects live in browser storage on the device, not GitHub. Do not clear site data, uninstall the PWA, or switch storage contexts to try to fix the issue. Data is not automatically synced between phone and computer.
+## Local data warning
+The project database remains `fieldtech-ohl-v1` and has NOT been reset or renamed. Records remain stored **on each device**, not GitHub. Switching devices does not synchronise projects. Preserve exported JSON backups and avoid clearing site data or uninstalling the app.
 
 ## Validation
-JavaScript syntax was checked, and static references were checked. A full device/browser test is still recommended before field use.
+JavaScript syntax has been checked; full deployment, phone browser, and IndexedDB persistence tests must be performed on the target device.
