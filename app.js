@@ -29,7 +29,7 @@ async function chooseProjectMode(mode){
   if(mode==='load')await listProjects();
   window.scrollTo(0,0);
 }
-function uuid(){return crypto.randomUUID?crypto.randomUUID():`${Date.now()}-${Math.random().toString(36).slice(2)}`;}
+function uuid(){return (typeof crypto!=='undefined' && typeof crypto.randomUUID==='function')?crypto.randomUUID():`${Date.now()}-${Math.random().toString(36).slice(2)}`;}
 function inspectionStatus(r){return r.status||(r.defectFree?'yes':'no');}
 function projectLabel(project){return `${project.projectName} — ${project.projectNumber}`;}
 function nextNumericIdentifier(records,key){const recent=[...records].sort((a,b)=>b.timestamp.localeCompare(a.timestamp)).find(r=>String(r[key]||'').trim());if(!recent)return '';const value=String(recent[key]).trim();const match=value.match(/^(.*?)(\d+)$/);if(!match)return '';return match[1]+String(BigInt(match[2])+1n).padStart(match[2].length,'0');}
@@ -45,8 +45,38 @@ async function deleteProjectSafe(project){
     await listProjects();
   }catch(e){alert('Could not delete project: '+e.message);}
 }
-async function createProject(event){event.preventDefault();const fields=formData();if(Object.values(fields).some(v=>!v)){const err=$('projectMessage');err.textContent='Complete all project fields.';err.hidden=false;return;}const projects=await allProjects();if(projects.some(p=>p.projectNumber.toLowerCase()===fields.projectNumber.toLowerCase())){const err=$('projectMessage');err.textContent='A project with that number already exists. Load it below, or use a different project number.';err.hidden=false;return;}
-const now=new Date().toISOString();const project={id:uuid(),createdAt:now,updatedAt:now,...fields};try{await writeProject(project);$('projectMessage').hidden=true;openProject(project);}catch(e){alert('Unable to save project on phone: '+e.message);}}
+function projectFeedback(message){
+ const target=$('projectMessage');target.textContent=message;target.hidden=!message;
+ if(message){target.setAttribute('role','alert');target.scrollIntoView({block:'nearest',behavior:'auto'});}
+}
+async function createProject(event){
+ event.preventDefault();
+ const button=$('projectForm').querySelector('[type="submit"]');
+ if(button.disabled)return;
+ projectFeedback('');
+ const fields=formData();
+ const missing=projectKeys.find(key=>!fields[key]);
+ if(missing){
+   const labels={projectName:'Project name',userName:'Inspector / user name',projectNumber:'Project number',clientName:'Carried out for',overheadLine:'Overhead line / route'};
+   projectFeedback(`Please complete: ${labels[missing]}.`);
+   $(missing).focus();return;
+ }
+ button.disabled=true;button.textContent='Saving project…';
+ try{
+   const projects=await allProjects();
+   if(projects.some(p=>String(p.projectNumber||'').toLowerCase()===fields.projectNumber.toLowerCase())){
+     projectFeedback('This project number already exists. Choose Load an Existing Project or enter a different number.');return;
+   }
+   const now=new Date().toISOString();
+   const project={id:uuid(),createdAt:now,updatedAt:now,...fields};
+   await writeProject(project);
+   await openProject(project);
+ }catch(error){
+   console.error('Project creation failed:',error);
+   const detail=error && (error.message||error.name) ? ` (${error.message||error.name})` : '';
+   projectFeedback('Could not open the project on this device'+detail+'. Check browser storage permissions and available space. Your existing saved data has not been intentionally cleared.');
+ }finally{button.disabled=false;button.textContent='Submit project details';}
+}
 async function openProject(project){activeProject=project;editingId=null;editingOriginal=null;updateEditUI();$('homePanel').hidden=true;$('projectPanel').hidden=true;$('workPanel').hidden=false;$('activeProjectLabel').textContent=projectLabel(project);$('activeProjectInfo').textContent=`${project.overheadLine} · ${project.userName}${project.completedAt?' · COMPLETED':''}`;$('completeProject').textContent=project.completedAt?'Reopen Project':'Mark Project Complete';$('inspectionForm').reset();$('faultList').replaceChildren();toggleFaults();clearPhoto();showMessage('');$('poleError').hidden=true;switchTab('new');await suggestNext();window.scrollTo(0,0);}
 async function endProject(){if(!activeProject)return;
   if(editingId||$('poleNumber').value.trim()||$('fieldId').value.trim()||$('faultList').children.length||photoBlob){if(!confirm('Exit project? Unsaved form changes will be discarded. Saved records remain on this phone.'))return;}

@@ -1,22 +1,22 @@
-# Field Tech Survey — Project buttons and offline update fix (v7)
+# Field Tech Survey – Mobile Project Submit Fix (v8)
 
-This is an update to the existing **OfflineFieldNotes** GitHub Pages app. It does **not** change the IndexedDB database name or existing records.
+This update addresses a mobile issue where the **Submit project details** button appears to do nothing. It keeps the same IndexedDB database and existing inspection features.
 
-## Before updating
+Changes:
+- Explicit in-page error messages identify any missing required field, rather than relying on native mobile browser validation.
+- Database read/write errors appear directly under the form.
+- Button displays “Saving project…” during a save and prevents duplicate taps.
+- Safer unique ID fallback and refreshed service worker cache (v8).
+- Large mobile-friendly submit button.
 
-1. On your current app, export **Full project backup (JSON)** including photographs, and keep it safe. If existing buttons are broken, use another working device/browser where your records are available, or fix the site first without clearing browser data.
-2. Extract this ZIP. In GitHub repository **OfflineFieldNotes**, use **Add file → Upload files** and upload the extracted files **inside the folder**, into the repository root (not the folder or ZIP itself). Commit changes to `main`.
-3. In GitHub, check **Actions** for Pages deployment completion, then open `https://fieldtechsurvey.github.io/OfflineFieldNotes/` while online. Refresh the page. If the old interface remains, close the tab, reopen the URL and refresh again. **Do not clear site data or uninstall the app**, as doing so can delete locally stored inspections.
-4. Confirm the new large blue buttons work. Create a TEST project, add a test inspection, exit, load the test project and verify the saved inspection.
-5. Test offline use after opening the new version online once.
+## Install
+1. **Back up existing records** using the existing app's **Full project backup** before changing files.
+2. Upload the contents of this ZIP to the **root** of the existing GitHub repository (`OfflineFieldNotes`), replacing matching files. Do not upload the enclosing folder as a folder.
+3. Commit the files. Wait for GitHub Pages to finish deploying.
+4. While online, open the published GitHub Pages app and refresh once; on a home-screen installed app, close and reopen it online. If it still uses the older version, access the Pages address in a normal browser to compare.
+5. Enter all five project detail fields and press Submit. If saving is blocked, the page should display a concrete error.
 
-## What changed
+**Data caution:** Existing projects live in browser storage on the device, not GitHub. Do not clear site data, uninstall the PWA, or switch storage contexts to try to fix the issue. Data is not automatically synced between phone and computer.
 
-- Two large, blue, touch-friendly buttons for **Create a New Project** and **Load an Existing Project**.
-- Versioned CSS/JS URLs in `index.html` to avoid stale assets from the old service worker.
-- Service-worker version 7 now fetches newer files when online, falling back to cached files when offline.
-- Existing forms, project and inspection storage, reports, exports, photographs and branding retained.
-
-## Important
-
-Projects and photos are saved in **the browser's IndexedDB on that device**, not in GitHub. To move projects between devices, use the app's full JSON backup/restore. Unsaved form entries are not preserved. Do not delete browser storage while changing versions.
+## Validation
+JavaScript syntax was checked, and static references were checked. A full device/browser test is still recommended before field use.

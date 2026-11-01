@@ -15,3 +15,8 @@
 
 /* v7: large phone-friendly home actions */
 .home-action{background:#135f95;color:#fff;border-color:#135f95;box-shadow:0 4px 12px #102c4e22}.home-action small{color:#eef7ff}.home-icon{color:#fff}.home-action:hover,.home-action:focus-visible{background:#104d7a;color:#fff;border-color:#104d7a}
+
+/* Mobile project creation feedback (v8). */
+.project-error:not([hidden]){display:block;background:#fff1f0;border:2px solid #bc3541;border-radius:10px;padding:13px;margin:14px 0;font-size:15px;line-height:1.5}
+.project-submit:disabled{opacity:.7;cursor:progress}
+@media(max-width:620px){.project-submit{width:100%;max-width:none;min-height:58px;font-size:17px}}
