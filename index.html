@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#102c4e"><title>Field Tech Survey | OHL Inspect</title><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="style.css"></head>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#102c4e"><title>Field Tech Survey | OHL Inspect</title><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="style.css?v=7"><style>.home-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:20px 0}.home-action{appearance:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;width:100%;min-height:190px;padding:24px 18px;background:#135f95;color:white;border:2px solid #135f95;border-radius:15px;font:inherit;text-align:center;cursor:pointer;box-shadow:0 4px 12px #102c4e22}.home-action strong{font-size:21px;line-height:1.25}.home-action small{color:#edf6ff;font-size:14px;line-height:1.5}.home-icon{font-size:36px;color:white}.home-action:focus-visible{outline:3px solid #ffcb46;outline-offset:3px}.home-action:hover{background:#104d7a}@media(max-width:620px){.home-actions{grid-template-columns:1fr;gap:14px}.home-action{min-height:155px;padding:20px 16px}}</style></head>
 <body><header><div class="brand"><img src="icon-192.png" alt="Field Tech Survey OHL logo"><div><strong>Field Tech Survey</strong><small>Overhead Line Inspections</small></div></div><div id="offlineState" class="connection">Checking connection…</div></header>
 <main>
   <section class="welcome"><div><span class="eyebrow">OHL INSPECT · FIELD RECORDER</span><h1>Pole Inspection</h1><p>Capture defects and observations in the field. Entries save to this device, even without signal.<br><strong>Field Tech Survey - Clarity from the ground up</strong></p></div></section>
@@ -8,7 +8,7 @@
     <p class="hint">Start a new inspection or continue a saved project. No total pole count or route length is required.</p>
     <div class="home-actions">
       <button type="button" id="chooseCreate" class="home-action"><span class="home-icon" aria-hidden="true">＋</span><strong>Create a New Project</strong><small>Enter the project details and start inspecting</small></button>
-      <button type="button" id="chooseLoad" class="home-action"><span class="home-icon" aria-hidden="true">▣</span><strong>Load an Existing Project</strong><small>Continue from previously saved inspection records</small></button>
+      <button type="button" id="chooseLoad" class="home-action"><span class="home-icon" aria-hidden="true">↩</span><strong>Load an Existing Project</strong><small>Continue from previously saved inspection records</small></button>
     </div>
     <p class="fine">Projects save locally on this device. Export a full project backup regularly, especially before changing devices or clearing browser data.</p>
   </section>
@@ -35,4 +35,4 @@
     <section id="summaryPanel" hidden><section class="card"><h2>Live project summary</h2><p class="hint">Updates after every inspection or amendment. The project does not need to be completed.</p><div id="summaryContent"></div><div class="exportbuttons"><button id="exportProjectCsv" type="button" class="secondary">Export complete project CSV</button><button id="emailProjectCsv" type="button" class="secondary">Email project CSV</button><button id="exportProjectBackup" type="button" class="secondary">Full project backup</button></div></section></section>
   </section>
 </main><footer>Field Tech Survey · OHL Inspect · Offline-first field recording</footer>
-<script src="app.js" defer></script></body></html>
+<script src="app.js?v=7" defer></script></body></html>

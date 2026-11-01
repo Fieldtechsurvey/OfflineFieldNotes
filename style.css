@@ -12,3 +12,6 @@
 .home-action strong{font-size:20px}.home-action small{font-size:13px;color:#526b7e;line-height:1.4}.home-icon{font-size:34px;color:#135f95}
 .back-home{margin-top:16px}
 @media(max-width:620px){.home-actions{grid-template-columns:1fr}.home-action{min-height:145px;padding:19px}}
+
+/* v7: large phone-friendly home actions */
+.home-action{background:#135f95;color:#fff;border-color:#135f95;box-shadow:0 4px 12px #102c4e22}.home-action small{color:#eef7ff}.home-icon{color:#fff}.home-action:hover,.home-action:focus-visible{background:#104d7a;color:#fff;border-color:#104d7a}

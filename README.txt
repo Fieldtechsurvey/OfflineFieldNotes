@@ -1,39 +1,22 @@
-# Field Tech Survey — OHL Inspect (project start screen update)
+# Field Tech Survey — Project buttons and offline update fix (v7)
 
-This update is based on the supplied **Field Tech Survey OHL** GitHub Pages app.
+This is an update to the existing **OfflineFieldNotes** GitHub Pages app. It does **not** change the IndexedDB database name or existing records.
+
+## Before updating
+
+1. On your current app, export **Full project backup (JSON)** including photographs, and keep it safe. If existing buttons are broken, use another working device/browser where your records are available, or fix the site first without clearing browser data.
+2. Extract this ZIP. In GitHub repository **OfflineFieldNotes**, use **Add file → Upload files** and upload the extracted files **inside the folder**, into the repository root (not the folder or ZIP itself). Commit changes to `main`.
+3. In GitHub, check **Actions** for Pages deployment completion, then open `https://fieldtechsurvey.github.io/OfflineFieldNotes/` while online. Refresh the page. If the old interface remains, close the tab, reopen the URL and refresh again. **Do not clear site data or uninstall the app**, as doing so can delete locally stored inspections.
+4. Confirm the new large blue buttons work. Create a TEST project, add a test inspection, exit, load the test project and verify the saved inspection.
+5. Test offline use after opening the new version online once.
 
 ## What changed
 
-- The opening screen now shows **Create a New Project** and **Load an Existing Project**.
-- Choosing Create reveals the existing project-details form.
-- Choosing Load reveals saved projects and JSON backup restoration.
-- Exiting a project returns to the two-choice opening screen.
-- Saving an inspection also updates the project's last-edited timestamp so recently used projects appear first.
-- The service-worker cache name was incremented to load the updated page files.
+- Two large, blue, touch-friendly buttons for **Create a New Project** and **Load an Existing Project**.
+- Versioned CSS/JS URLs in `index.html` to avoid stale assets from the old service worker.
+- Service-worker version 7 now fetches newer files when online, falling back to cached files when offline.
+- Existing forms, project and inspection storage, reports, exports, photographs and branding retained.
 
-All existing inspection fields, severity choices, photograph handling, IndexedDB database name/version, exports and backup format are retained. No total pole count or total route distance is required.
+## Important
 
-## Deploy to the existing GitHub repository
-
-**Before updating:** Open your current app on the original device/browser, export a **Full project backup (with photos)** / **Full backup**, and keep the downloaded JSON file in a safe place.
-
-1. Open your **OfflineFieldNotes** repository on GitHub.
-2. Upload or replace the files from this package into the **root** of the `main` branch. In particular, replace `index.html`, `app.js`, `style.css` and `sw.js` with the supplied versions. Other supplied assets are unchanged copies of your originals.
-3. Commit the changes. Your existing GitHub Pages deployment should rebuild automatically.
-4. Visit your GitHub Pages app online and refresh it. If the old opening screen still appears, fully close and reopen the installed app after it has been online; the service worker may need one reload to activate. Do **not** clear site data or uninstall to force an update.
-5. Confirm the opening screen has two choices. Load a previously saved project, add a test inspection, exit, reload the app, load the project again and check the saved inspection remains available.
-6. Test that an exported JSON backup can be restored on a separate test browser/profile. Keep your real production data safe.
-
-## Important: where saved work lives
-
-GitHub Pages publishes the app **code only**. The inspection records and compressed photos remain in **IndexedDB on the device and browser profile** where they were saved. A project saved on one phone will **not automatically appear on another phone or desktop**. To move it, export a full JSON backup on the original device and restore it on the destination device.
-
-Browsers can remove local data. Back up projects regularly. A normal GitHub Pages code update should not erase IndexedDB if the site origin stays the same, but you should still export a backup first.
-
-The Save Inspection button saves each complete pole record. The current version does **not** autosave unfinished form entries; closing an unfinished entry can lose unsaved edits. Exit Project warns about unsaved form content.
-
-## Files
-
-- `index.html`, `app.js`, `style.css`: website/interface and project storage logic
-- `sw.js`, `manifest.webmanifest`, `icon-192.png`, `icon-512.png`, `icon.svg`: offline install and branding
-- `import_in_RStudio.R`: optional desktop CSV import helper
+Projects and photos are saved in **the browser's IndexedDB on that device**, not in GitHub. To move projects between devices, use the app's full JSON backup/restore. Unsaved form entries are not preserved. Do not delete browser storage while changing versions.
