@@ -1,21 +1,21 @@
-# Field Tech Survey — OHL Inspect — Technical Design v9
+FIELD TECH SURVEY - OHL INSPECT - 24-HOUR REMEMBERED LOGIN (v14)
 
-## What changed
-- New branded drone / LiDAR / OHL graphic and technical navy/cyan visual theme.
-- Large, accessible Create New Project and Load Existing Project actions for phones.
-- Original v8 project, inspection, photo, export, and IndexedDB logic retained unchanged.
-- Cache version increased to v9 for update delivery; offline hero graphic is cached.
-- No pole totals or route kilometre estimates required.
+Update from v13. This patch includes ONLY the three files that changed:
+- index.html
+- access.js
+- sw.js
 
-## Installation in existing GitHub repository
-1. **First export a full JSON backup** of your existing inspections (including photos).
-2. Extract the ZIP and upload its **contents** to the ROOT of `OfflineFieldNotes` via Add file → Upload files. Overwrite matching existing files. Do not upload the enclosing folder.
-3. Commit changes on `main`; check Actions / Pages for deployment success.
-4. Open `https://fieldtechsurvey.github.io/OfflineFieldNotes/` online on your phone and refresh.
-5. Test creating a sample project, saving an inspection, exiting, and loading it again. Test once offline too.
+The login now remembers successful unlock for 24 hours on that browser/device, even if you close/reopen the app. After 24 hours, it asks again. The Lock button cancels the remembered unlock immediately. It DOES NOT store your plaintext password in browser storage; it stores an expiry timestamp.
 
-## Local data warning
-The project database remains `fieldtech-ohl-v1` and has NOT been reset or renamed. Records remain stored **on each device**, not GitHub. Switching devices does not synchronise projects. Preserve exported JSON backups and avoid clearing site data or uninstalling the app.
+This is ONLY a casual visitor deterrent. The repository and public JavaScript remain accessible; this is NOT secure authentication.
 
-## Validation
-JavaScript syntax has been checked; full deployment, phone browser, and IndexedDB persistence tests must be performed on the target device.
+To update GitHub:
+1. Export a full JSON backup of inspection records before changing anything.
+2. Extract these files and upload to the ROOT of OfflineFieldNotes via Add file > Upload files, replacing the three matching filenames.
+3. DO NOT change or delete access-config.js, app.js, or your browser's stored data.
+4. Commit to main. When GitHub Pages finishes deploying, open the site online and refresh it once to install v14.
+5. Test: enter the password, close and reopen the app (no prompt within 24 hours). Click Lock (password immediately required). The password is requested again when the 24-hour interval has passed.
+
+The 24-hour period starts from a successful password entry; regular openings DO NOT reset the clock.
+
+Existing inspection projects are unaffected. If local storage is disabled, the app will ask for the password each time.

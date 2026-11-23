@@ -1,7 +1,22 @@
 /* Field Tech Survey: casual-visitor password screen, NOT server-side security. */
 (() => {
   'use strict';
-  const KEY = 'fieldtech-ohl-unlocked-v10';
+  const UNLOCK_KEY = 'fieldtech-ohl-access-until-v14';
+  const REMEMBER_MS = 24 * 60 * 60 * 1000;
+  function rememberUnlock() {
+    try { localStorage.setItem(UNLOCK_KEY, String(Date.now() + REMEMBER_MS)); } catch (_) {}
+  }
+  function isRemembered() {
+    try {
+      const until = Number(localStorage.getItem(UNLOCK_KEY));
+      if (Number.isFinite(until) && until > Date.now() && until <= Date.now() + REMEMBER_MS) return true;
+      localStorage.removeItem(UNLOCK_KEY);
+    } catch (_) {}
+    return false;
+  }
+  function forgetUnlock() {
+    try { localStorage.removeItem(UNLOCK_KEY); } catch (_) {}
+  }
   function showApp() {
     document.getElementById('accessGate').hidden = true;
     document.getElementById('applicationShell').hidden = false;
@@ -30,14 +45,13 @@
       shell.hidden = true;
       return;
     }
-    try { if (sessionStorage.getItem(KEY) === '1') { showApp(); return; } } catch(e) {}
-    showGate();
+    if (isRemembered()) showApp(); else showGate();
     form.addEventListener('submit', event => {
       event.preventDefault();
       const attempt = document.getElementById('accessPassword').value;
       if (attempt === configured) {
-        try { sessionStorage.setItem(KEY, '1'); } catch(e) {}
         message.hidden = true;
+        rememberUnlock();
         showApp();
       } else {
         message.textContent = 'Access Denied — incorrect password.';
@@ -47,7 +61,7 @@
       }
     });
     document.getElementById('lockApp').addEventListener('click', () => {
-      try { sessionStorage.removeItem(KEY); } catch(e) {}
+      forgetUnlock();
       showGate();
     });
   });
